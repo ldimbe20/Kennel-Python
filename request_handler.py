@@ -36,6 +36,8 @@ class HandleRequests(BaseHTTPRequestHandler):
     # It gives a description of the class or function
     """Controls the functionality of any GET, PUT, POST, DELETE requests to the server
     """
+    
+    
 
     # Here's a class function
     def _set_headers(self, status):
