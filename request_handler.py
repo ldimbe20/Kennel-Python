@@ -1,9 +1,9 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
-from views.animal_requests import get_single_animal, create_animal, get_all_animals, delete_animal, update_animal
-from views.employee_requests import get_all_employees, get_single_employee, create_employee, delete_employee, update_employee
-from views.locations_requests import get_all_locations, get_single_location, create_location, delete_location, update_location
-from views.customer_requests import get_all_customers, get_single_customer, create_customer, delete_customer, update_customer
+from views import get_single_animal, create_animal, get_all_animals, delete_animal, update_animal
+from views import get_all_employees, get_single_employee, create_employee, delete_employee, update_employee
+from views import get_all_locations, get_single_location, create_location, delete_location, update_location
+from views import get_single_customer, create_customer, delete_customer, update_customer, get_all_customers
 
 
 
@@ -70,11 +70,13 @@ class HandleRequests(BaseHTTPRequestHandler):
         response = {}  # Default response
 
         # Parse the URL and capture the tuple that is returned
-        (resource, id) = self.parse_url(self.path)
+        (resource, id) = self.parse_url(self.path) # the resource = the url 
+        #aka animal or locations and id equals the id of it. If there isn't an
+        #id then line 86 else will pass
 
         if resource == "animals":
             if id is not None:
-                response = f"{get_single_animal(id)}"
+                response = f"{get_single_animal(id)}" 
             else:
                 response = f"{get_all_animals()}"
  
