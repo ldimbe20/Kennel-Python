@@ -68,7 +68,7 @@ SELECT
     a.email,
     a.password
 FROM customer a
-WHERE a.id = 4
+-- WHERE a.id = 4
 
 
 
