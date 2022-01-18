@@ -54,13 +54,13 @@ def get_single_customer(id):
         # into the SQL statement.
         db_cursor.execute("""
         SELECT
-            a.id,
-            a.name,
-            a.address,
-            a.email,
-            a.password
-        FROM customer a
-        WHERE a.id = ?
+            c.id,
+            c.name,
+            c.address,
+            c.email,
+            c.password
+        FROM customer c
+        WHERE c.id = ?
         """, ( id, ))
 
         # Load the single result into memory
@@ -98,20 +98,6 @@ def get_customers_by_email(email):
             customers.append(customer.__dict__)
 
     return json.dumps(customers)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

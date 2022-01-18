@@ -1,7 +1,7 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
-from views import get_single_animal, create_animal, get_all_animals, delete_animal, update_animal
-from views import get_all_employees, get_single_employee, create_employee, delete_employee, update_employee
+from views import get_single_animal, create_animal, get_all_animals, delete_animal, update_animal, get_animal_by_location, get_animal_by_status
+from views import get_all_employees, get_single_employee, create_employee, delete_employee, update_employee, get_employee_by_location
 from views import get_all_locations, get_single_location, create_location, delete_location, update_location
 from views import get_single_customer, create_customer, delete_customer, update_customer, get_all_customers, get_customers_by_email
 
@@ -33,7 +33,8 @@ class HandleRequests(BaseHTTPRequestHandler):
             id = None
 
             try:
-                id = int(path_params[2])
+                id = int(path_params[2]) 
+                # !/ confused by above
             except IndexError:
                 pass  # No route parameter exists: /animals
             except ValueError:
@@ -105,6 +106,15 @@ class HandleRequests(BaseHTTPRequestHandler):
             # email as a filtering value?
             if key == "email" and resource == "customers":
                 response = get_customers_by_email(value)
+                
+            elif key == "location_id" and resource == "animals":
+                response = get_animal_by_location(value)
+                
+            elif key == "status" and resource == "animals":
+                response = get_animal_by_status(value)
+                
+            elif key == "location_id" and resource == "employees":
+                response = get_employee_by_location(value)
 
         self.wfile.write(response.encode())
         
