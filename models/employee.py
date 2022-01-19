@@ -1,5 +1,5 @@
 class Employee():
-    """[Creating id, name, address, status, location.id fields for Animal class] """
+    """[Creating employee class] """
     
     # Class initializer. It has 5 custom parameters, with the
     # special `self` parameter that every method on a class
@@ -9,5 +9,5 @@ class Employee():
         self.name = name #name is the field that stores the value name
         self.address = address #address
         self.location_id = location_id #location is the field that stores value of location
-      
+        self.location = None
 
