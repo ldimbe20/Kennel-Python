@@ -34,7 +34,7 @@ class HandleRequests(BaseHTTPRequestHandler):
 
             try:
                 id = int(path_params[2]) 
-                # !/ confused by above
+                
             except IndexError:
                 pass  # No route parameter exists: /animals
             except ValueError:
@@ -94,6 +94,18 @@ class HandleRequests(BaseHTTPRequestHandler):
                     response = f"{get_single_customer(id)}"
                 else:
                     response = f"{get_all_customers()}"
+                    
+            elif resource == "locations":
+                if id is not None:
+                    response = f"{get_single_location(id)}"
+                else:
+                    response = f"{get_all_locations()}"
+                    
+            elif resource == "employees":
+                if id is not None:
+                    response = f"{get_single_employee(id)}"
+                else:
+                    response = f"{get_all_employees()}"
 
         # Response from parse_url() is a tuple with 3
         # items in it, which means the request was for
@@ -151,6 +163,7 @@ class HandleRequests(BaseHTTPRequestHandler):
             new_animal = create_customer(post_body)
    
         self.wfile.write(f"{new_animal}".encode())
+    
 
     def do_DELETE(self):
         # Set a 204 response code
@@ -179,7 +192,6 @@ class HandleRequests(BaseHTTPRequestHandler):
 # point of this application.
 
     def do_PUT(self):
-        self._set_headers(204)
         content_len = int(self.headers.get('content-length', 0))
         post_body = self.rfile.read(content_len)
         post_body = json.loads(post_body)
@@ -187,21 +199,34 @@ class HandleRequests(BaseHTTPRequestHandler):
         # Parse the URL
         (resource, id) = self.parse_url(self.path)
 
-        # Delete a single animal from the list
-        if resource == "locations":
-            update_location(id, post_body)
-        
-        if resource == "employees":
-            update_employee(id, post_body)
-            
-        if resource == "customers":
-            update_customer(id, post_body)
-        
-        if resource == "animals":
-            update_animal(id, post_body)
+        success = False
 
-        # Encode the new animal and send in response
-        self.wfile.write("".encode())
+        if resource == "animals":
+            success = f"{update_animal(id, post_body)}"
+       
+        elif resource == "employees":
+            success = f"{update_employee(id, post_body)}"
+            
+        elif resource == "locations":
+            success = f"{update_location(id, post_body)}"
+            
+        elif resource == "customers":
+            success = f"{update_customer(id, post_body)}"
+
+
+        if success:
+            self._set_headers(204)
+        else:
+            self._set_headers(404)
+
+            self.wfile.write("".encode())
+        
+        
+    #  if resource == "animals":
+    #             if id is not None:
+    #                 response = f"{get_single_animal(id)}"
+    #             else:
+    #                 response = f"{get_all_animals()}"
         
 def main():
     """Starts the server on port 8088 using the HandleRequests class

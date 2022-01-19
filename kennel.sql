@@ -60,15 +60,17 @@ INSERT INTO `Animal` VALUES (null, "Daps", "Kennel", "Boxer", 2, 2);
 
 
 -- Get only the animal rows where the `id` field value is 3
--- SELECT
 
---     a.id,
---     a.name,
---     a.address,
---     a.email,
---     a.password
--- FROM customer a
--- WHERE a.id = 4
+
+SELECT
+
+    a.id,
+    a.name,
+    a.address,
+    a.email,
+    a.password
+FROM location a
+WHERE a.id = 1
 
 
 
